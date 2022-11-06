@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import br.com.alinykelly.orgs.R
+import br.com.alinykelly.orgs.dao.ProdutosDao
 import br.com.alinykelly.orgs.model.Produto
 import java.math.BigDecimal
 
@@ -37,6 +38,10 @@ class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario
             )
 
             Log.i("FormularioProduto", "onCreate: $produtoNovo")
+
+            val dao = ProdutosDao()
+            dao.adiciona(produtoNovo)
+            Log.i("FormularioProduto", "onCreate: ${dao.buscaTodos()}")
 
         }
 
