@@ -3,20 +3,18 @@ package br.com.alinykelly.orgs.ui.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alinykelly.orgs.R
 import br.com.alinykelly.orgs.model.Produto
 import br.com.alinykelly.orgs.ui.recyclerView.adapter.ListaProdutosAdapter
 import java.math.BigDecimal
 
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.adapter = ListaProdutosAdapter(
             context = this, produtos = listOf(
