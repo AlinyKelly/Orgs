@@ -2,13 +2,13 @@ package br.com.alinykelly.orgs.ui.recyclerView.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import br.com.alinykelly.orgs.R
 import br.com.alinykelly.orgs.databinding.ProdutoItemBinding
 import br.com.alinykelly.orgs.model.Produto
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.util.*
 
 class ListaProdutosAdapter(
     private val context: Context,
@@ -27,7 +27,14 @@ class ListaProdutosAdapter(
             descricao.text = produto.descricao
 
             val valor = binding.produtoItemValor
-            valor.text = produto.valor.toPlainString()
+            //Formatar valor monetario
+            val valorEmMoeda = formatarMoedaBR(produto.valor)
+            valor.text = valorEmMoeda
+        }
+
+        private fun formatarMoedaBR(valor: BigDecimal): String? {
+            val formatarValor = NumberFormat.getCurrencyInstance(Locale("pt", "br"))
+            return formatarValor.format(valor)
         }
     }
 
