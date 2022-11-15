@@ -49,7 +49,7 @@ class ListaProdutosActivity : AppCompatActivity() {
 
     private fun configuraRecyclerView() {
         val recyclerView = binding.activityListaProdutoRecyclerView
-        recyclerView.adapter =adapter
+        recyclerView.adapter = adapter
     }
 
 }
