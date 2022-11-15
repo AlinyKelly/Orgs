@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/produto_1" />
+            app:srcCompat="@drawable/imagem_padrao" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/form_produto_textinputlayout_nome"
@@ -35,7 +35,8 @@
                 android:id="@+id/activity_formulario_produto_nome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nome" />
+                android:hint="Nome"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,7 +53,8 @@
                 android:id="@+id/activity_formulario_produto_descricao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descricao" />
+                android:hint="Descricao"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -69,7 +71,8 @@
                 android:id="@+id/activity_formulario_produto_valor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Valor" />
+                android:hint="Valor"
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -78,11 +81,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="Salvar"
-            app:layout_constraintVertical_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/form_produto_textinputlayout_valor" />
+            app:layout_constraintTop_toBottomOf="@id/form_produto_textinputlayout_valor"
+            app:layout_constraintVertical_bias="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

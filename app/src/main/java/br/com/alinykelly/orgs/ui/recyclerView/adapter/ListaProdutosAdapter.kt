@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alinykelly.orgs.databinding.ProdutoItemBinding
 import br.com.alinykelly.orgs.model.Produto
+import coil.load
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.*
@@ -30,6 +31,7 @@ class ListaProdutosAdapter(
             //Formatar valor monetario
             val valorEmMoeda = formatarMoedaBR(produto.valor)
             valor.text = valorEmMoeda
+            binding.imageView.load("inserir a url aqui")
         }
 
         private fun formatarMoedaBR(valor: BigDecimal): String? {
