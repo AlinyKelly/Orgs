@@ -31,7 +31,7 @@ class ListaProdutosAdapter(
             //Formatar valor monetario
             val valorEmMoeda = formatarMoedaBR(produto.valor)
             valor.text = valorEmMoeda
-            binding.imageView.load("inserir a url aqui")
+            binding.imageView.load(produto.imagem)
         }
 
         private fun formatarMoedaBR(valor: BigDecimal): String? {
