@@ -9,7 +9,9 @@ import br.com.alinykelly.orgs.R
 import br.com.alinykelly.orgs.dao.ProdutosDao
 import br.com.alinykelly.orgs.databinding.ActivityFormularioProdutoBinding
 import br.com.alinykelly.orgs.databinding.FormularioImagemBinding
+import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
+import br.com.alinykelly.orgs.ui.dialog.FormularioImagemDialog
 import coil.load
 import java.math.BigDecimal
 
@@ -27,23 +29,7 @@ class FormularioProdutoActivity : AppCompatActivity() {
         configuraBotaoSalvar()
 
         binding.activityFormularioProdutoImagem.setOnClickListener {
-            val bindingFormularioImagem = FormularioImagemBinding.inflate(layoutInflater)
-            bindingFormularioImagem.formularioImagemBotaocarregar.setOnClickListener{
-                val url = bindingFormularioImagem.formularioImagemUrl.text.toString()
-                bindingFormularioImagem.formularioImagemImageview.load(url)
-            }
-
-            AlertDialog.Builder(this)
-                .setView(bindingFormularioImagem.root)
-                .setPositiveButton("Confirmar") {
-                    _, _ ->
-                    url = bindingFormularioImagem.formularioImagemUrl.text.toString()
-                    binding.activityFormularioProdutoImagem.load(url)
-                }
-                .setNegativeButton("Cancelar") {
-                    _, _ ->
-                }
-                .show()
+            FormularioImagemDialog(this).mostrar()
         }
     }
 

@@ -2,9 +2,12 @@ package br.com.alinykelly.orgs.ui.recyclerView.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import br.com.alinykelly.orgs.R
 import br.com.alinykelly.orgs.databinding.ProdutoItemBinding
+import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
 import coil.load
 import java.math.BigDecimal
@@ -31,7 +34,18 @@ class ListaProdutosAdapter(
             //Formatar valor monetario
             val valorEmMoeda = formatarMoedaBR(produto.valor)
             valor.text = valorEmMoeda
-            binding.imageView.load(produto.imagem)
+
+            //Verificar imagem
+            val visibilidade = if(produto.imagem != null){
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            binding.imageView.visibility = visibilidade
+
+            //Outra maneira de tratar o erro para exibição de imagem
+            binding.imageView.tentarCarregarImagem(produto.imagem)
+
         }
 
         private fun formatarMoedaBR(valor: BigDecimal): String? {
