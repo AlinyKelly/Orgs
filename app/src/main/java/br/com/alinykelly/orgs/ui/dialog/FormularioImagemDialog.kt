@@ -8,7 +8,7 @@ import br.com.alinykelly.orgs.databinding.FormularioImagemBinding
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 
 class FormularioImagemDialog(private val context: Context) {
-    fun mostrar(imageView: ImageView){
+    fun mostrar(quandoImagemCarregada: (imagem: String) -> Unit){
         val binding = FormularioImagemBinding
             .inflate(LayoutInflater.from(context))
         binding.formularioImagemBotaocarregar.setOnClickListener{
@@ -21,6 +21,7 @@ class FormularioImagemDialog(private val context: Context) {
             .setPositiveButton("Confirmar") {
                     _, _ ->
                 val url = binding.formularioImagemUrl.text.toString()
+                quandoImagemCarregada(url)
 
             }
             .setNegativeButton("Cancelar") {
