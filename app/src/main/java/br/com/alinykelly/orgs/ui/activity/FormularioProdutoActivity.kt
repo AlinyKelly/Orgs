@@ -1,18 +1,12 @@
 package br.com.alinykelly.orgs.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-import br.com.alinykelly.orgs.R
+import androidx.appcompat.app.AppCompatActivity
 import br.com.alinykelly.orgs.dao.ProdutosDao
 import br.com.alinykelly.orgs.databinding.ActivityFormularioProdutoBinding
-import br.com.alinykelly.orgs.databinding.FormularioImagemBinding
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
 import br.com.alinykelly.orgs.ui.dialog.FormularioImagemDialog
-import coil.load
 import java.math.BigDecimal
 
 class FormularioProdutoActivity : AppCompatActivity() {
@@ -31,7 +25,7 @@ class FormularioProdutoActivity : AppCompatActivity() {
 
         binding.activityFormularioProdutoImagem.setOnClickListener {
             FormularioImagemDialog(this)
-                .mostrar {
+                .mostrar(url) {
                 imagem ->
                 url = imagem
                 binding.activityFormularioProdutoImagem.tentarCarregarImagem(url)

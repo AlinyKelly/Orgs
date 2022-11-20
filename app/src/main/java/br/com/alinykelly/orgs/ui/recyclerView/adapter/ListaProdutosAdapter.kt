@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alinykelly.orgs.R
 import br.com.alinykelly.orgs.databinding.ProdutoItemBinding
+import br.com.alinykelly.orgs.extensions.formatarParaMoedaBrasileira
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
 import coil.load
@@ -16,14 +17,35 @@ import java.util.*
 
 class ListaProdutosAdapter(
     private val context: Context,
-    produtos: List<Produto>
+    produtos: List<Produto>,
+    // declaração da função para o listener do adapter
+    var quandoClicarNoItem: (produto: Produto) -> Unit = {}
     ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
 
     private val produtos = produtos.toMutableList()
 
-    class ViewHolder(private val binding: ProdutoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    // utilização do inner na classe interna para acessar membros da classe superior
+    // nesse caso, a utilização da variável quandoClicaNoItem
+    inner class ViewHolder(private val binding: ProdutoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        // Considerando que o ViewHolder modifica de valor com base na posição
+        // é necessário o uso de properties mutáveis, para evitar nullables
+        // utilizamos o lateinit, properties que podem ser inicializar depois
+        private lateinit var produto: Produto
+
+        init {
+            // implementação do listener do adapter
+            itemView.setOnClickListener {
+                // verificação da existência de valores em property lateinit
+                if (::produto.isInitialized){
+                    quandoClicarNoItem(produto)
+                }
+            }
+        }
+
         //Apresentar produto
         fun vincula(produto: Produto) {
+            this.produto = produto
+
             val nome = binding.produtoItemNome
             nome.text = produto.nome
 
@@ -32,7 +54,7 @@ class ListaProdutosAdapter(
 
             val valor = binding.produtoItemValor
             //Formatar valor monetario
-            val valorEmMoeda = formatarMoedaBR(produto.valor)
+            val valorEmMoeda = produto.valor.formatarParaMoedaBrasileira()
             valor.text = valorEmMoeda
 
             //Verificar imagem
@@ -46,11 +68,6 @@ class ListaProdutosAdapter(
             //Outra maneira de tratar o erro para exibição de imagem
             binding.imageView.tentarCarregarImagem(produto.imagem)
 
-        }
-
-        private fun formatarMoedaBR(valor: BigDecimal): String? {
-            val formatarValor = NumberFormat.getCurrencyInstance(Locale("pt", "br"))
-            return formatarValor.format(valor)
         }
     }
 
