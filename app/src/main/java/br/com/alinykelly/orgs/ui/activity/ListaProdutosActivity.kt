@@ -4,9 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import br.com.alinykelly.orgs.dao.ProdutosDao
+import br.com.alinykelly.orgs.database.AppDatabase
 import br.com.alinykelly.orgs.databinding.ActivityListaProdutosBinding
+import br.com.alinykelly.orgs.model.Produto
 import br.com.alinykelly.orgs.ui.recyclerView.adapter.ListaProdutosAdapter
+import java.math.BigDecimal
 
 class ListaProdutosActivity : AppCompatActivity() {
 
@@ -24,12 +28,15 @@ class ListaProdutosActivity : AppCompatActivity() {
         setContentView(binding.root)
         configuraRecyclerView()
         configuraFab()
+
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.atualiza(dao.buscaTodos())
 
+        val db = AppDatabase.instancia(this)
+        val produtoDao = db.produtoDao()
+        adapter.atualiza(produtoDao.buscarTodos())
     }
 
     private fun configuraFab() {

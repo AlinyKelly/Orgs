@@ -2,7 +2,9 @@ package br.com.alinykelly.orgs.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import br.com.alinykelly.orgs.dao.ProdutosDao
+import br.com.alinykelly.orgs.database.AppDatabase
 import br.com.alinykelly.orgs.databinding.ActivityFormularioProdutoBinding
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
@@ -25,25 +27,24 @@ class FormularioProdutoActivity : AppCompatActivity() {
 
         binding.activityFormularioProdutoImagem.setOnClickListener {
             FormularioImagemDialog(this)
-                .mostrar(url) {
-                imagem ->
-                url = imagem
-                binding.activityFormularioProdutoImagem.tentarCarregarImagem(url)
-            }
+                .mostrar(url) { imagem ->
+                    url = imagem
+                    binding.activityFormularioProdutoImagem.tentarCarregarImagem(url)
+                }
         }
     }
 
     private fun configuraBotaoSalvar() {
         //Processo de binding utilizando lambda
         val botaoSalvar = binding.activityFormularioProdutoBotaoSalvar
-        val dao = ProdutosDao()
+
+        val db = AppDatabase.instancia(this)
+
         botaoSalvar.setOnClickListener {
             val produtoNovo = criaProduto()
-
-            dao.adiciona(produtoNovo)
-
+            val produtoDao = db.produtoDao()
+            produtoDao.salvar(produtoNovo)
             finish()
-
         }
     }
 
