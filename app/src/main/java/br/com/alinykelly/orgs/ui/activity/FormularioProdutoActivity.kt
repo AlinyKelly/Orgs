@@ -2,8 +2,6 @@ package br.com.alinykelly.orgs.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import br.com.alinykelly.orgs.dao.ProdutosDao
 import br.com.alinykelly.orgs.database.AppDatabase
 import br.com.alinykelly.orgs.databinding.ActivityFormularioProdutoBinding
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem

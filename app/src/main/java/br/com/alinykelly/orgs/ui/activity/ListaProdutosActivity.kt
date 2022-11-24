@@ -4,19 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import br.com.alinykelly.orgs.dao.ProdutosDao
 import br.com.alinykelly.orgs.database.AppDatabase
 import br.com.alinykelly.orgs.databinding.ActivityListaProdutosBinding
-import br.com.alinykelly.orgs.model.Produto
 import br.com.alinykelly.orgs.ui.recyclerView.adapter.ListaProdutosAdapter
-import java.math.BigDecimal
 
 class ListaProdutosActivity : AppCompatActivity() {
 
-    private val dao = ProdutosDao()
     private val adapter = ListaProdutosAdapter(
-        context = this, produtos = dao.buscaTodos()
+        context = this
     )
     private val binding by lazy {
         ActivityListaProdutosBinding.inflate(layoutInflater)
@@ -28,7 +23,6 @@ class ListaProdutosActivity : AppCompatActivity() {
         setContentView(binding.root)
         configuraRecyclerView()
         configuraFab()
-
     }
 
     override fun onResume() {
