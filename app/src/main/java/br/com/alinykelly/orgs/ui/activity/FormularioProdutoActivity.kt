@@ -16,6 +16,7 @@ class FormularioProdutoActivity : AppCompatActivity() {
     }
 
     private var url: String? = null
+    private var idProduto = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,15 @@ class FormularioProdutoActivity : AppCompatActivity() {
                     url = imagem
                     binding.activityFormularioProdutoImagem.tentarCarregarImagem(url)
                 }
+        }
+        //Verifica se o produto é novo ou é uma edição e carrega as informações já cadastradas
+        intent.getParcelableExtra<Produto>(CHAVE_PRODUTO)?.let { produtoCarregado ->
+            title = "Alterar Produto"
+            idProduto = produtoCarregado.id
+            binding.activityFormularioProdutoImagem.tentarCarregarImagem(produtoCarregado.imagem)
+            binding.activityFormularioProdutoNome.setText(produtoCarregado.nome)
+            binding.activityFormularioProdutoDescricao.setText(produtoCarregado.descricao)
+            binding.activityFormularioProdutoValor.setText(produtoCarregado.valor.toPlainString())
         }
     }
 
