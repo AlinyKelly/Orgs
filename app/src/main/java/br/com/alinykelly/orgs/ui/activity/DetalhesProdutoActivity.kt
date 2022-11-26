@@ -1,7 +1,11 @@
 package br.com.alinykelly.orgs.ui.activity
 
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import br.com.alinykelly.orgs.R
 import br.com.alinykelly.orgs.databinding.ActivityDetalhesProdutoBinding
 import br.com.alinykelly.orgs.extensions.formatarParaMoedaBrasileira
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
@@ -17,6 +21,23 @@ class DetalhesProdutoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         tentaCarregarProduto()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detalhes_produto, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_detalhes_produto_remover -> {
+                Log.i("TAG", "onOptionsItemSelected: remover")
+            }
+            R.id.menu_detalhes_produto_editar -> {
+                Log.i("TAG", "onOptionsItemSelected: editar")
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun tentaCarregarProduto() {

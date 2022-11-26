@@ -33,6 +33,8 @@ class ListaProdutosActivity : AppCompatActivity() {
         adapter.atualiza(produtoDao.buscarTodos())
     }
 
+
+
     private fun configuraFab() {
         val fab = binding.activityListaProdutoFab
         fab.setOnClickListener {
