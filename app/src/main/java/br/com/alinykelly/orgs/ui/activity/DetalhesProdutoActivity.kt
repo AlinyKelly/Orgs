@@ -2,7 +2,6 @@ package br.com.alinykelly.orgs.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -37,7 +36,7 @@ class DetalhesProdutoActivity : AppCompatActivity() {
             val produtoDao = db.produtoDao()
             when (item.itemId) {
                 R.id.menu_detalhes_produto_remover -> {
-                    produtoDao.remove(produto)
+                    produtoDao.remover(produto)
                     finish()
                 }
                 R.id.menu_detalhes_produto_editar -> {
