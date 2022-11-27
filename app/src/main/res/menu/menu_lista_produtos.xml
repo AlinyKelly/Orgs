@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_lista_produtos_ordenar"
         android:icon="@drawable/ic_action_ordenar"
-        android:title="ordernar"
+        android:title="Ordernar"
         app:showAsAction="ifRoom">
         <menu>
             <item

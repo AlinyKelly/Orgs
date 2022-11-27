@@ -40,11 +40,13 @@ class ListaProdutosActivity : AppCompatActivity() {
         adapter.atualiza(produtoDao.buscarTodos())
     }
 
+    //inflar o menu de ordenacao de itens
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_lista_produtos, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    //Ordenar itens
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val produtosOrdenado: List<Produto>? = when (item.itemId) {
             R.id.menu_lista_produtos_ordenar_nome_asc -> produtoDao.buscarTodosOrdenadorPorNomeAsc()
