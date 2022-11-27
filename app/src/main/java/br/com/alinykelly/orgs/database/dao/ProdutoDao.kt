@@ -12,7 +12,7 @@ import br.com.alinykelly.orgs.model.Produto
 interface ProdutoDao {
 
     @Query("SELECT * FROM Produto")
-    fun buscarTodos() : List<Produto>
+    fun buscarTodos(): List<Produto>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun salvar(vararg produto: Produto)
@@ -21,5 +21,24 @@ interface ProdutoDao {
     fun remover(produto: Produto)
 
     @Query("SELECT * FROM Produto WHERE id = :id")
-    fun buscarPorId(id: Long?) : Produto?
+    fun buscarPorId(id: Long?): Produto?
+
+    //Ordenacao da lista de produtos
+    @Query("SELECT * FROM Produto ORDER BY nome ASC")
+    fun buscarTodosOrdenadorPorNomeAsc(): List<Produto>
+
+    @Query("SELECT * FROM Produto ORDER BY nome DESC")
+    fun buscarTodosOrdenadorPorNomeDesc(): List<Produto>
+
+    @Query("SELECT * FROM Produto ORDER BY descricao ASC")
+    fun buscarTodosOrdenadorPorDescricaoAsc(): List<Produto>
+
+    @Query("SELECT * FROM Produto ORDER BY descricao DESC")
+    fun buscarTodosOrdenadorPorDescricaoDesc(): List<Produto>
+
+    @Query("SELECT * FROM Produto ORDER BY valor ASC")
+    fun buscarTodosOrdenadorPorValorAsc(): List<Produto>
+
+    @Query("SELECT * FROM Produto ORDER BY valor DESC")
+    fun buscarTodosOrdenadorPorValorDesc(): List<Produto>
 }
