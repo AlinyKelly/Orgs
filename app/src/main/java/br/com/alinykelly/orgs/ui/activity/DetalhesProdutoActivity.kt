@@ -14,9 +14,13 @@ import br.com.alinykelly.orgs.model.Produto
 
 class DetalhesProdutoActivity : AppCompatActivity() {
 
-    private lateinit var produto: Produto
+    private var produtoId: Long? = null
+    private var produto: Produto? = null
     private val binding by lazy {
         ActivityDetalhesProdutoBinding.inflate(layoutInflater)
+    }
+    private val produtoDao by lazy {
+        AppDatabase.instancia(this).produtoDao()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,18 +29,25 @@ class DetalhesProdutoActivity : AppCompatActivity() {
         tentaCarregarProduto()
     }
 
+    override fun onResume() {
+        super.onResume()
+        produtoId.let { id ->
+            produto = produtoDao.buscarPorId(id)
+        }
+        produto?.let {
+            preencherCampos(it)
+        } ?: finish()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_detalhes_produto, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (::produto.isInitialized) {
-            val db = AppDatabase.instancia(this)
-            val produtoDao = db.produtoDao()
             when (item.itemId) {
                 R.id.menu_detalhes_produto_remover -> {
-                    produtoDao.remover(produto)
+                    produto?.let { produtoDao.remover(it) }
                     finish()
                 }
                 R.id.menu_detalhes_produto_editar -> {
@@ -47,7 +58,6 @@ class DetalhesProdutoActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -55,12 +65,11 @@ class DetalhesProdutoActivity : AppCompatActivity() {
         // tentativa de buscar o produto se ele existir,
         // caso contrário, finalizar a Activity
         intent.getParcelableExtra<Produto>(CHAVE_PRODUTO)?.let { produtoCarregado ->
-            produto = produtoCarregado
-            preencheCampos(produtoCarregado)
+            produtoId = produtoCarregado.id
         } ?: finish()
     }
 
-    private fun preencheCampos(produtoCarregado: Produto) {
+    private fun preencherCampos(produtoCarregado: Produto) {
         with(binding) {
             activityDetalhesProdutoImagem.tentarCarregarImagem(produtoCarregado.imagem)
             activityDetalhesProdutoNome.text = produtoCarregado.nome
