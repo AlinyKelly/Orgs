@@ -61,7 +61,7 @@ class ListaProdutosActivity : AppCompatActivity() {
                 DetalhesProdutoActivity::class.java
             ).apply {
                 // envio do produto por meio do extra
-                putExtra(CHAVE_PRODUTO, it)
+                putExtra(CHAVE_PRODUTO_ID, it.id)
             }
             startActivity(intent)
         }

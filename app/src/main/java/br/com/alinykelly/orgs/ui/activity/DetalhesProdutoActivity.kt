@@ -14,7 +14,7 @@ import br.com.alinykelly.orgs.model.Produto
 
 class DetalhesProdutoActivity : AppCompatActivity() {
 
-    private var produtoId: Long? = null
+    private var produtoId: Long = 0L
     private var produto: Produto? = null
     private val binding by lazy {
         ActivityDetalhesProdutoBinding.inflate(layoutInflater)
@@ -31,9 +31,13 @@ class DetalhesProdutoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        produtoId.let { id ->
-            produto = produtoDao.buscarPorId(id)
-        }
+
+        buscarProduto()
+    }
+
+    //Realizar a busca do produto por ID no banco de dados
+    private fun buscarProduto() {
+        produto = produtoDao.buscarPorId(produtoId)
         produto?.let {
             preencherCampos(it)
         } ?: finish()
@@ -45,28 +49,26 @@ class DetalhesProdutoActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            when (item.itemId) {
-                R.id.menu_detalhes_produto_remover -> {
-                    produto?.let { produtoDao.remover(it) }
-                    finish()
-                }
-                R.id.menu_detalhes_produto_editar -> {
-                    //Abrir o formulario Cadastrar Produto
-                    Intent(this, FormularioProdutoActivity::class.java).apply {
-                        putExtra(CHAVE_PRODUTO, produto)
-                        startActivity(this)
-                    }
+        when (item.itemId) {
+            R.id.menu_detalhes_produto_remover -> {
+                produto?.let { produtoDao.remover(it) }
+                finish()
+            }
+            R.id.menu_detalhes_produto_editar -> {
+                //Abrir o formulario Cadastrar Produto
+                Intent(this, FormularioProdutoActivity::class.java).apply {
+                    putExtra(CHAVE_PRODUTO_ID, produtoId)
+                    startActivity(this)
                 }
             }
+        }
         return super.onOptionsItemSelected(item)
     }
 
     private fun tentaCarregarProduto() {
         // tentativa de buscar o produto se ele existir,
         // caso contrário, finalizar a Activity
-        intent.getParcelableExtra<Produto>(CHAVE_PRODUTO)?.let { produtoCarregado ->
-            produtoId = produtoCarregado.id
-        } ?: finish()
+        produtoId = intent.getLongExtra(CHAVE_PRODUTO_ID, 0L)
     }
 
     private fun preencherCampos(produtoCarregado: Produto) {
