@@ -2,12 +2,14 @@ package br.com.alinykelly.orgs.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import br.com.alinykelly.orgs.database.AppDatabase
 import br.com.alinykelly.orgs.database.dao.ProdutoDao
 import br.com.alinykelly.orgs.databinding.ActivityFormularioProdutoBinding
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
 import br.com.alinykelly.orgs.ui.dialog.FormularioImagemDialog
+import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class FormularioProdutoActivity : AppCompatActivity() {
@@ -50,14 +52,17 @@ class FormularioProdutoActivity : AppCompatActivity() {
     }
 
     private fun tentarBuscarProduto() {
-        produtoDao.buscarPorId(produtoId)?.let {
-            title = "Alterar Produto"
-            preencherCampos(it)
+        lifecycleScope.launch {
+            produtoDao.buscarPorId(produtoId).collect {
+                it?.let { produtoEncontrado ->
+                    title = "Alterar produto"
+                    preencherCampos(produtoEncontrado)
+                }
+            }
         }
     }
 
     private fun preencherCampos(produto: Produto) {
-
         url = produto.imagem
         binding.activityFormularioProdutoImagem.tentarCarregarImagem(produto.imagem)
         binding.activityFormularioProdutoNome.setText(produto.nome)
@@ -76,8 +81,10 @@ class FormularioProdutoActivity : AppCompatActivity() {
 //            } else {
 //                produtoDao.salvar(produtoNovo)
 //            }
-            produtoDao.salvar(produtoNovo)
-            finish()
+            lifecycleScope.launch {
+                produtoDao.salvar(produtoNovo)
+                finish()
+            }
         }
     }
 

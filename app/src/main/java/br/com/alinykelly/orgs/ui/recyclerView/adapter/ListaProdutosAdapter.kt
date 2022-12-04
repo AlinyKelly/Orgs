@@ -12,6 +12,7 @@ import br.com.alinykelly.orgs.databinding.ProdutoItemBinding
 import br.com.alinykelly.orgs.extensions.formatarParaMoedaBrasileira
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
+import kotlinx.coroutines.flow.Flow
 
 class ListaProdutosAdapter(
     private val context: Context,

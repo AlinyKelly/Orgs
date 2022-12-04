@@ -11,6 +11,9 @@ import br.com.alinykelly.orgs.databinding.ActivityDetalhesProdutoBinding
 import br.com.alinykelly.orgs.extensions.formatarParaMoedaBrasileira
 import br.com.alinykelly.orgs.extensions.tentarCarregarImagem
 import br.com.alinykelly.orgs.model.Produto
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class DetalhesProdutoActivity : AppCompatActivity() {
 
@@ -31,16 +34,20 @@ class DetalhesProdutoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         buscarProduto()
     }
 
     //Realizar a busca do produto por ID no banco de dados
     private fun buscarProduto() {
-        produto = produtoDao.buscarPorId(produtoId)
-        produto?.let {
-            preencherCampos(it)
-        } ?: finish()
+        lifecycleScope.launch {
+            produtoDao.buscarPorId(produtoId).collect { produtoEncontrado ->
+                produto = produtoEncontrado
+                produto?.let {
+                    preencherCampos(it)
+                } ?: finish()
+
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,8 +58,12 @@ class DetalhesProdutoActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_detalhes_produto_remover -> {
-                produto?.let { produtoDao.remover(it) }
-                finish()
+                produto?.let {
+                    lifecycleScope.launch {
+                        produtoDao.remover(it)
+                        finish()
+                    }
+                }
             }
             R.id.menu_detalhes_produto_editar -> {
                 //Abrir o formulario Cadastrar Produto
